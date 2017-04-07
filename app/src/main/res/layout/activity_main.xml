@@ -7,7 +7,7 @@
     android:background="#f1f1f1"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.example.administrator.positioning.MainActivity">
+    tools:context="com.example.administrator.positioning.ui.MainActivity">
 
     <include layout="@layout/toolbar_layout"/>
 
