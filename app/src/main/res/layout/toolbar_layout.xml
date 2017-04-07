@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
     android:paddingTop="@dimen/status_bar_height"
+    app:navigationIcon="@mipmap/ic_launcher"
     android:background="@color/color_blue"
     app:theme="@style/Toolbar"
     >
@@ -13,10 +14,21 @@
     <TextView
         android:id="@+id/tv_toolbar_title"
         android:layout_gravity="center"
-        android:gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:visibility="gone"
+        android:text="退出"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:id="@+id/toolbar_right"
+        android:layout_marginRight="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        />
 
 </android.support.v7.widget.Toolbar>

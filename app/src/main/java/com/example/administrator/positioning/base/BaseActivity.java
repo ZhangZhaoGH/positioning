@@ -56,6 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 steepStatusBar();
             }
             setContentView(mContextView);
+            setInstanceState(savedInstanceState);
             if (!isAllowScreenRoate) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//横屏
             } else {
@@ -109,6 +110,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
      * @param parms
      */
     public abstract void initParms(Bundle parms);
+
+    public abstract void setInstanceState(Bundle savedInstanceState);
 
     /**
      * [绑定布局]

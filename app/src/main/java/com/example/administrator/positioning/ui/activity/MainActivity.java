@@ -1,4 +1,4 @@
-package com.example.administrator.positioning.ui;
+package com.example.administrator.positioning.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,10 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.administrator.positioning.R;
 import com.example.administrator.positioning.api.ApiConstants;
 import com.example.administrator.positioning.base.BaseActivity;
+import com.example.administrator.positioning.bean.DriverInfoBean;
+import com.example.administrator.positioning.ui.activity.ClassCarInfoActivity;
 import com.example.administrator.positioning.utils.SPUtils;
 import com.example.administrator.positioning.utils.ToastUtils;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -54,6 +57,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void setInstanceState(Bundle savedInstanceState) {
+
+    }
+
+    @Override
     public int bindLayout() {
         return R.layout.activity_main;
     }
@@ -68,6 +76,7 @@ public class MainActivity extends BaseActivity {
         mToolbar= (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationIcon(null);
         title= (TextView) view.findViewById(R.id.tv_toolbar_title);
         title.setText("登录");
         etMainLogin= (EditText) view.findViewById(R.id.et_main_login);
@@ -98,6 +107,17 @@ public class MainActivity extends BaseActivity {
                 login();
                 break;
             case R.id.ll_main_remember_account:
+                account = etMainLogin.getText().toString();
+                password = etMainPassword.getText().toString();
+
+                if (TextUtils.isEmpty(account)) {
+                    ToastUtils.showToast("请输入账号");
+                    return;
+                }
+                if (TextUtils.isEmpty(password)) {
+                    ToastUtils.showToast("请输入密码");
+                    return;
+                }
                 isRememberAccount = !isRememberAccount;
                 if (isRememberAccount) {
                     SPUtils.put(this, SPUtils.SPU_ACCOUNT, account);
@@ -125,6 +145,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onResponse(String response, int id) {
                 try {
+                    LogUtil("登录response="+response);
                     JSONObject jsonObject= JSON.parseObject(response);
                     JSONObject head=jsonObject.getJSONObject("head");
                     String issuccess=head.getString("issuccess");
@@ -132,11 +153,15 @@ public class MainActivity extends BaseActivity {
                         ToastUtils.showToast("登录失败，请检查账号或密码");
                         return;
                     }
-
-                    JSONObject body=jsonObject.getJSONObject("body");
-                    String result=body.getString("result");
-                    ToastUtils.showToast(result);
-                    startActivity(ClassCarInfoActivity.class);
+                    DriverInfoBean bean = null;
+                    JSONArray body=jsonObject.getJSONArray("body");
+                    for (Object obj : body) {
+                        JSONObject js= (JSONObject) obj;
+                        bean=JSON.parseObject(js.toJSONString(),DriverInfoBean.class);
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("bean", bean);
+                    startActivity(ClassCarInfoActivity.class,bundle);
 
                 }catch (Exception e){
                     ToastUtils.showToast("获取登录数据失败，请重试！");

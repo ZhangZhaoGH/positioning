@@ -23,7 +23,12 @@
     <color name="theme_bg">#00BCD4</color>
     <color name="super_light_grey">#FAFAFA</color>
     <color name="light_grey">#D7D7D7</color>
-
+    <color name="text_black">#ff000000</color>
+    <color name="text_gray">#ffbac0d1</color>
+    <color name="text_white">#ffbac0d1</color>
+    <color name="text_green">#ff259b24</color>
+    <color name="text_orange">#ffff5722</color>
+    <color name="text_red">#FF0000</color>
 
     <color name="green_normal">#37C000</color>
 
